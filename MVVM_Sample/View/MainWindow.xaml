@@ -1,0 +1,76 @@
+﻿<Window x:Class="MVVM_Sample.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:MVVM_Sample.ViewModel"
+        Title="Запись на замер" Height="450" Width="525" WindowStartupLocation="CenterScreen">
+    
+    <Window.DataContext>
+        <local:MainWindowViewModel></local:MainWindowViewModel>
+    </Window.DataContext>
+    <TabControl>
+        <TabItem Header="Саратов">
+            <StackPanel>
+                <DataGrid Name="DataGrid1" Height="150" Margin="5, 5, 5, 0" ItemsSource="{Binding Clients}" AutoGenerateColumns="False" IsReadOnly="True">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Фамилия" Binding="{Binding FirstName}"/>
+                        <DataGridTextColumn Header="Имя" Binding="{Binding LastName}"/>
+                        <DataGridTextColumn Header="Отчество" Binding="{Binding MiddleName}"/>
+                        <DataGridTextColumn Header="Улица" Binding="{Binding CityStreet, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                        <DataGridTextColumn Header="Телефон" Binding="{Binding Telephone, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                        <DataGridTextColumn Header="Дата" Binding="{Binding Date, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                        <DataGridTextColumn Header="Замер" Binding="{Binding Gager, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style>
+                                    <Setter Property="TextBlock.TextAlignment" Value="Center" />
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <Border BorderBrush="Blue" CornerRadius="5" Margin="10,10,10,162" Padding="35" BorderThickness="1">
+                    <Grid Width="400">
+                        <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100"></ColumnDefinition>
+                            <ColumnDefinition Width="211*" />
+                        </Grid.ColumnDefinitions>
+                        <Label Content="Укажите дату" VerticalAlignment="Top" Height="27"/>
+                        <TextBox Name="TextBoxDate" Grid.ColumnSpan="1" Margin="0,27,0,0" TextWrapping="NoWrap" VerticalAlignment="Top"  Height="24"
+                                 Text="{Binding Path=SDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                        </TextBox>
+                        <Label Content="Ном. телефона" VerticalAlignment="Top" Margin="0,51,0,0" Height="27"/>
+                        <TextBox Name="TextBoxTelephone" Grid.ColumnSpan="1" Margin="0,78,0,0" TextWrapping="NoWrap" VerticalAlignment="Top"  Height="24"
+                                 Text="{Binding Path=SPhone, Mode=TwoWay}">
+                        </TextBox>
+                        <Button Grid.ColumnSpan="1" Height="24" Command="{Binding RecordMeasurement}" IsEnabled="{Binding Path=IsCommandEnabled, Mode=TwoWay}" Margin="0,107,0,9">
+                            Записать
+                        </Button>
+
+                        <DataGrid Grid.Column="1" Width="279" HorizontalAlignment="Right" ItemsSource="{Binding Path=Measurements}" AutoGenerateColumns="False" IsReadOnly="True">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Дата" Binding="{Binding DateM, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                                <DataGridTextColumn Header="Количество свободных замерщиков" Binding="{Binding GagerM, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style>
+                                            <Setter Property="TextBlock.TextAlignment" Value="Center" />
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                </DataGridTextColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+
+                    </Grid>
+                </Border>
+            </StackPanel>
+        </TabItem>
+        <TabItem Header="Москва">
+            <StackPanel>
+                <TextBox>Moscow!</TextBox>
+            </StackPanel>
+        </TabItem>
+    </TabControl>
+</Window>
